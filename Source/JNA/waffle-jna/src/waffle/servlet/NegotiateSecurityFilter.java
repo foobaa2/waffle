@@ -80,6 +80,13 @@ public class NegotiateSecurityFilter implements Filter {
 		_log.debug(request.getMethod() + " " + request.getRequestURI()
 				+ ", contentlength: " + request.getContentLength());
 
+        // Disable the SSO if requested for this session
+        if(request.getSession().getAttribute("c3_disable_sso") != null)
+        {
+            chain.doFilter(request, response);
+            return;
+        }
+        
 		if (doFilterPrincipal(request, response, chain)) {
 			// previously authenticated user
 			return;

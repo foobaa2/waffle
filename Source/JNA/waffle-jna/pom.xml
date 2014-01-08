@@ -8,6 +8,7 @@
   </parent>
   <artifactId>waffle-jna</artifactId>
   <packaging>jar</packaging>
+  <version>1.6-allow-disable-${buildNumber}</version>
 
   <name>waffle-jna</name>
   <description>WAFFLE JNA implementation</description>
@@ -40,4 +41,30 @@
       <version>14.0.1</version>
     </dependency>
   </dependencies>
+
+
+  <profiles>
+        <profile>
+            <id>static_build_number</id>
+            <activation>
+                <property>
+                    <name>!env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <properties>
+                <buildNumber>local-${maven.build.timestamp}</buildNumber>
+            </properties>
+        </profile>
+        <profile>
+            <id>dynamic_build_number</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <properties>
+                <buildNumber>${env.BUILD_NUMBER}</buildNumber>
+            </properties>
+        </profile>
+    </profiles>
 </project>
